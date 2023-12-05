@@ -3,24 +3,24 @@ package day3
 import java.io.File
 
 fun main() {
-    val input = File("src/day3/input.txt").readText().lines()
-    val sampleInput = File("src/day3/sample.txt").readText().lines()
+    val input = File("src/day3/input.txt").readLines()
+    val sampleInput = File("src/day3/sample.txt").readLines()
 
-    check((part1(sampleInput)) == 4361)
-    check((part2(sampleInput)) == 467835)
+    check(part1(sampleInput) == 4361)
+    check(part2(sampleInput) == 467835)
 
     println("Part1 ${part1(input)}")
     println("Part2 ${part2(input)}")
 }
 
-private val number = "[0-9]+".toRegex()
+private val numberRegex = Regex("[0-9]+")
 
 private fun part1(lines: List<String>): Int {
     var sum = 0
     for ((y, line) in lines.withIndex()) {
-        for (match in number.findAll(line)) {
+        for (match in numberRegex.findAll(line)) {
             for ((adjX, adjY) in match.range.adjacent(y)) {
-                if (lines.getOrNull(adjY)?.getOrNull(adjX)?.isSymbol() == true) {
+                if (lines.getOrNull(adjY)?.getOrNull(adjX)?.isNotSymbol() == true) {
                     sum += match.value.toInt()
                 }
             }
@@ -29,14 +29,13 @@ private fun part1(lines: List<String>): Int {
     return sum
 }
 
-
 private fun part2(lines: List<String>): Int {
-    val gears = hashMapOf<Pair<Int, Int>, MutableList<Int>>()
+    val gears = mutableMapOf<Pair<Int, Int>, MutableList<Int>>()
     for ((y, line) in lines.withIndex()) {
-        for (match in number.findAll(line)) {
+        for (match in numberRegex.findAll(line)) {
             for ((adjX, adjY) in match.range.adjacent(y)) {
                 if (lines.getOrNull(adjY)?.getOrNull(adjX) == '*') {
-                    gears.getOrPut(adjX to adjY, ::mutableListOf).add(match.value.toInt())
+                    gears.getOrPut(adjX to adjY) { mutableListOf() }.add(match.value.toInt())
                 }
             }
         }
@@ -55,7 +54,7 @@ private fun IntRange.adjacent(y: Int): Set<Pair<Int, Int>> = buildSet {
     }
 }
 
-private fun Char.isSymbol() = when (this) {
+private fun Char.isNotSymbol() = when (this) {
     '.', in '0'..'9' -> false
     else -> true
 }
