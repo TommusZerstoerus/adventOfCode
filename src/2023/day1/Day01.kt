@@ -1,9 +1,9 @@
-package day1
+package `2023`.day1
 
 import java.io.File
 
 fun main() {
-    val input = File("src/day1/input.txt").readText().lines()
+    val input = File("src/2023/day1/input.txt").readText().lines()
     println("Part1 : ${part1(input)}")
     println("Part2 : ${part2(input)}")
 }

@@ -1,4 +1,4 @@
-package day6
+package `2023`.day6
 
 import java.io.File
 
