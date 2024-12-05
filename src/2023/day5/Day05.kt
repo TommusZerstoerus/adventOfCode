@@ -14,7 +14,7 @@ fun main() {
     check(part2(sampleInput).toInt() == 46)
 
     println("Part1 ${part1(input)}")
-//    println("Part2 ${part2(input)}")
+//    println("Part2 ${`2024`.day5.part2(input)}")
 }
 
 fun part1(input: List<String>): Long {
